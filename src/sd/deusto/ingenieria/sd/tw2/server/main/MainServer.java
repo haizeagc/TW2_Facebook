@@ -1,7 +1,9 @@
-package sd.deusto.ingenieria.sd.tw2.server.Server;
+package sd.deusto.ingenieria.sd.tw2.server.main;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+
+import sd.deusto.ingenieria.sd.tw2.server.Service.FacebookService;
 
 public class MainServer {
 	
@@ -18,7 +20,7 @@ public class MainServer {
 			System.out.println("- FacebookServer: waiting for connections '" + tcpServerSocket.getInetAddress().getHostAddress() + ":" + tcpServerSocket.getLocalPort() + "'...");
 			
 			while (true) {
-				new loginService(tcpServerSocket.accept());
+				new FacebookService(tcpServerSocket.accept());
 				System.out.println(" - FacebookServer: New client connection accepted. Client number: " +  ++numClients);
 			}
 		} catch (IOException e) {
