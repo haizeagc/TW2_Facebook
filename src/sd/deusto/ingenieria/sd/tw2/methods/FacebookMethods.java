@@ -1,53 +1,42 @@
 package sd.deusto.ingenieria.sd.tw2.methods;
-
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class FacebookMethods {
-	
-	private ArrayList<Account> account = new ArrayList<>();
-	private HashMap<Email, String> map = new HashMap<>();
-	
-	public void registration(String email, String password) {
-		Account c1 = new Account();
-		boolean h = true;
-		
-		c1.setEmail(email);
-		c1.setPassword(password);
-
-		//change latter to sending the email to google or facebook for validation
-		for (Account account2 : account) {
-			if(account2.getName().equals(name)) {
-				h = false;
-				break;
-			}
+	public Map<String,String> accounts = new HashMap<String,String>();
+	public static FacebookMethods instance;
+	private FacebookMethods() {
+		this.initFacebook();
+	}
+	public static FacebookMethods getInstance() {
+		if (instance == null) {
+			instance = new FacebookMethods();
 		}
-		if (h) {
-			account.add(c1);
-			return c1;
+		
+		return instance;
+	}
+	public boolean register(String email, String password) {
+		if (!accounts.containsKey(email)) {
+			accounts.put(email, password);
+			return true;
 		}else {
-			return null;
+			return false;
 		}
 	}
 	
-	public Account login(String email, String password) {
-		Account account = new Account();
-		//just until the login with facebook is done
-		boolean b = false;
-		for (Account acaux : this.account) {
-			if (acaux.getEmail().equals(email)) {
-				//remove once loggin with facebook or google is done
-				if (acaux.checkPassword(password)) {
-					account.setEmail(email);
-					account.setPassword(password);
-					b = true;
-					break;
-				}
-			}
-		}
-		if (b) {
-			return account;
+	public boolean loginService(String email, String password) {
+		if (accounts.containsKey(email) && accounts.get(email).equals(password)) {
+			return true;
 		} else {
-			return null;		}
+			return false;
+		}
+	}
+	
+	public void initFacebook() {
+		accounts.put("veronica@gmail.es","1234");
+		accounts.put("mercedes@gmail.es","123456");
+		accounts.put("macarena@gmail.es","1234567");
+		accounts.put("josemiguel@gmail.es","12345678");
 	}
 }

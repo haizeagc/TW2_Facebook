@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
+import sd.deusto.ingenieria.sd.tw2.methods.FacebookMethods;
+
 public class FacebookService extends Thread {
 	private DataInputStream in;
 	private DataOutputStream out;
@@ -29,7 +31,11 @@ public class FacebookService extends Thread {
 		try {
 			String data = this.in.readUTF();
 			System.out.println("  - FacebookService - Received data from '" +  tcpSocket.getInetAddress().getHostAddress() + ":" + tcpSocket.getPort() + "'->'" + data + "'");
-			//data = this.translate(data);
+			if (data.contains("login")) {
+				data = this.Loggin(data);
+			}else if (data.contains("register")) {
+				data = this.Register(data);
+			}
 			this.out.writeUTF(data);					
 			System.out.println("   - FacebookService - Sent data to '" + tcpSocket.getInetAddress().getHostAddress() + ":" + tcpSocket.getPort() + "' -> '" + data.toUpperCase() + "'");
 		} catch (EOFException e) {
@@ -44,57 +50,56 @@ public class FacebookService extends Thread {
 			}
 		}
 	}
-	//Logging
-	/**public String translate(String msg) {
-		String translation = null;
+	
+	public String Loggin(String msg) {
+		boolean result = false;
 		
 		if (msg != null && !msg.trim().isEmpty()) {
 			try {
 				StringTokenizer tokenizer = new StringTokenizer(msg, DELIMITER);		
-				String langFrom = tokenizer.nextToken();
-				String langTo = tokenizer.nextToken();
-				String text = tokenizer.nextToken();
-				System.out.println("   - Starting translation of " + text + " from: " + langFrom + " to " + langTo);
-		
-				if (langFrom != null && langTo != null && text != null && !text.trim().isEmpty()) {
-					GoogleTranslator gt = new GoogleTranslator();
-					translation = gt.translate(langFrom, langTo, text);
-					System.out.println("   - Google Translator result: " + translation);
+				String extra = tokenizer.nextToken();
+				String email = tokenizer.nextToken();
+				String password = tokenizer.nextToken();
+				System.out.println("   - loggin: " + email);
+				if (email != null && password != null) {
+					result = FacebookMethods.getInstance().loginService(email, password);
+					System.out.println("   - Google Translator result: " + result);
 				}
 			} catch (Exception e) {
 				System.err.println("   # TranslationService - Translation API error:" + e.getMessage());
-				translation = null;
+				result = false;
+				
+			}
+		}
+		return Boolean.toString(result);
+	}
+	public String Register(String msg) {
+		boolean result = false;
+		
+		if (msg != null && !msg.trim().isEmpty()) {
+			try {
+				StringTokenizer tokenizer = new StringTokenizer(msg, DELIMITER);		
+				String extra = tokenizer.nextToken();
+				String email = tokenizer.nextToken();
+				String password = tokenizer.nextToken();
+				System.out.println("   - Registering: " + email);
+		
+				if (email != null && password != null) {
+					result = FacebookMethods.getInstance().register(email, password);
+					System.out.println("   - Google Translator result: " + result);
+				}
+			} catch (Exception e) {
+				System.err.println("   # TranslationService - Translation API error:" + e.getMessage());
+				result = false;
 			}
 		}
 		
-		return (translation == null) ? "ERR" : "OK" + DELIMITER + translation;
+		return Boolean.toString(result);
 	}
-	 */
+
+	//Logging
+	/** */
 	
 	//Register
-	/**public String translate(String msg) {
-		String translation = null;
-		
-		if (msg != null && !msg.trim().isEmpty()) {
-			try {
-				StringTokenizer tokenizer = new StringTokenizer(msg, DELIMITER);		
-				String langFrom = tokenizer.nextToken();
-				String langTo = tokenizer.nextToken();
-				String text = tokenizer.nextToken();
-				System.out.println("   - Starting translation of " + text + " from: " + langFrom + " to " + langTo);
-		
-				if (langFrom != null && langTo != null && text != null && !text.trim().isEmpty()) {
-					GoogleTranslator gt = new GoogleTranslator();
-					translation = gt.translate(langFrom, langTo, text);
-					System.out.println("   - Google Translator result: " + translation);
-				}
-			} catch (Exception e) {
-				System.err.println("   # TranslationService - Translation API error:" + e.getMessage());
-				translation = null;
-			}
-		}
-		
-		return (translation == null) ? "ERR" : "OK" + DELIMITER + translation;
-	}
-	*/
+	/**	*/
 }
