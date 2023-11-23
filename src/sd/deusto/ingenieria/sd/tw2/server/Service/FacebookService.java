@@ -63,10 +63,10 @@ public class FacebookService extends Thread {
 				System.out.println("   - loggin: " + email);
 				if (email != null && password != null) {
 					result = FacebookMethods.getInstance().loginService(email, password);
-					System.out.println("   - Google Translator result: " + result);
+					System.out.println("   - Facebook result: " + result);
 				}
 			} catch (Exception e) {
-				System.err.println("   # TranslationService - Translation API error:" + e.getMessage());
+				System.err.println("   # FacebookService - Translation API error:" + e.getMessage());
 				result = false;
 				
 			}
@@ -86,20 +86,14 @@ public class FacebookService extends Thread {
 		
 				if (email != null && password != null) {
 					result = FacebookMethods.getInstance().register(email, password);
-					System.out.println("   - Google Translator result: " + result);
+					System.out.println("   - Facebook result: " + result);
 				}
 			} catch (Exception e) {
-				System.err.println("   # TranslationService - Translation API error:" + e.getMessage());
+				System.err.println("   # FacebookService - Facebook API error:" + e.getMessage());
 				result = false;
 			}
 		}
 		
 		return Boolean.toString(result);
 	}
-
-	//Logging
-	/** */
-	
-	//Register
-	/**	*/
 }
