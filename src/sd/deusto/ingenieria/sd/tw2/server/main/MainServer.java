@@ -18,7 +18,6 @@ public class MainServer {
 		int serverPort = Integer.parseInt(args[0]);
 		try (ServerSocket tcpServerSocket = new ServerSocket(serverPort);){
 			System.out.println("- FacebookServer: waiting for connections '" + tcpServerSocket.getInetAddress().getHostAddress() + ":" + tcpServerSocket.getLocalPort() + "'...");
-			
 			while (true) {
 				new FacebookService(tcpServerSocket.accept());
 				System.out.println(" - FacebookServer: New client connection accepted. Client number: " +  ++numClients);

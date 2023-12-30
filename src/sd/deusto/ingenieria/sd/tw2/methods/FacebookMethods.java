@@ -34,9 +34,7 @@ public class FacebookMethods {
 	}
 	
 	public void initFacebook() {
-		accounts.put("veronica@gmail.es","1234");
-		accounts.put("mercedes@gmail.es","123456");
-		accounts.put("macarena@gmail.es","1234567");
-		accounts.put("josemiguel@gmail.es","12345678");
+		accounts.put("andrea@gmail.com","1234");
+		accounts.put("fernando@gmail.com","5678");
 	}
 }
